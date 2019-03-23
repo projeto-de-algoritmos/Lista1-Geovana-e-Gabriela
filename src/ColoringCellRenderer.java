@@ -21,7 +21,7 @@ class ColoringCellRenderer extends DefaultTableCellRenderer{
 	
 	}
 	
-	private Color getCellColor(int r, int c){
+	public Color getCellColor(int r, int c){
 	    Color color = cellColors.get(new Point(r,c));
 	    Random rand = new Random();
 	   
@@ -51,4 +51,5 @@ class ColoringCellRenderer extends DefaultTableCellRenderer{
 	    setBackground(color);
 	    return this;
 	}
+
 }

@@ -59,13 +59,13 @@ public class MainFrame extends JFrame {
 		    public void mouseClicked(java.awt.event.MouseEvent evt) {
 		        int row = table.rowAtPoint(evt.getPoint());
 		        int col = table.columnAtPoint(evt.getPoint());
-		        if (row >= 0 && col >= 0) {
-		        	cellRenderer.setCellColor(row, col, Color.GREEN);
-	                table.repaint();
-		        }
+		        
+		        Color cellColor = cellRenderer.getCellColor(row, col);  
+		        Graph graph = new Graph();
+		        
+		        graph.FloodFillBFS(row, col, cellColor, 40, 85, cellRenderer, table);        
 		    }
-		});
-		
+		});		
 
 	}
 	
