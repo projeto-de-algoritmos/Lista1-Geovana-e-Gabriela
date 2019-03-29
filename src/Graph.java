@@ -8,7 +8,9 @@ import javax.swing.JTable;
 // Reference: http://www.thecshandbook.com/Flood_Fill
 class Graph{ 
 	
-    public void FloodFillBFS(int x, int y, Color buttonColorClicked, int width, int height, ColoringCellRenderer cellRenderer, JTable table) {
+    public void FloodFillBFS(
+    		int x, int y, Color buttonColorClicked, int width, int height,
+    			ColoringCellRenderer cellRenderer, JTable table, Color newColor) {
     	boolean visited[][] = new boolean[width][height];
     	
     	LinkedList<Point> queue = new LinkedList<Point>();
@@ -31,7 +33,7 @@ class Graph{
 			      continue;
 			}
 		    
-		    cellRenderer.setCellColor(currentPoint.x, currentPoint.y, Color.BLACK);
+		    cellRenderer.setCellColor(currentPoint.x, currentPoint.y, newColor);
 		    
 		    queue.push(new Point(currentPoint.x + 1, currentPoint.y));
 		    queue.push(new Point(currentPoint.x - 1, currentPoint.y));

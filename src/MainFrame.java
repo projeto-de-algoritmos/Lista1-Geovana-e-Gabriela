@@ -8,14 +8,19 @@ import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
-
-	private JPanel contentPane;
+	
+	Color newColor;
+	JButton currentBtn;
 
 	public MainFrame() {
 			
@@ -25,20 +30,36 @@ public class MainFrame extends JFrame {
 		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		setUndecorated(false);
 		
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 			
 		//Title section
-		JLabel lblQuestion = new JLabel("Clique em uma célula para pintar");
+		JLabel lblQuestion = new JLabel(
+				"Escolha uma cor e clique em uma célula para pintar"
+		);
 		lblQuestion.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblQuestion.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblQuestion);
 		
 		
-		//Separating label and first table
-		contentPane.add(Box.createRigidArea(new Dimension(40,40)));
+		//Separating label and buttons
+		contentPane.add(Box.createRigidArea(new Dimension(10,10)));
+		
+		//Buttons section
+		JPanel buttonsPane = new JPanel();
+		JButton buttonBlack = new JButton("Preto");
+		JButton buttonPurple = new JButton("Roxo");
+		JButton buttonGray = new JButton("Cinza");
+		newColor = Color.BLACK;
+		currentBtn = buttonBlack;
+		buttonBlack.setEnabled(false);
+		buttonsPane.add(buttonBlack);
+		buttonsPane.add(buttonPurple);
+		buttonsPane.add(buttonGray);
+		contentPane.add(buttonsPane);
+		
 			
 		//Table 1
 		JTable table = new JTable(40,85);
@@ -49,8 +70,45 @@ public class MainFrame extends JFrame {
             TableColumn column = columnModel.getColumn(c);
             column.setCellRenderer(cellRenderer);
         }
-	    //tableObjects.setMaximumSize(new Dimension(500, 150 ));
 		contentPane.add(table);
+		
+		
+		//Buttons listeners
+		buttonBlack.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buttonBlack.setEnabled(false);
+				currentBtn.setEnabled(true); 
+				currentBtn = buttonBlack;
+				newColor = Color.BLACK;
+				
+			}
+		});
+		
+		buttonPurple.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buttonPurple.setEnabled(false);
+				currentBtn.setEnabled(true);
+				currentBtn = buttonPurple;
+				newColor = Color.MAGENTA;
+				
+			}
+		});
+		
+		buttonGray.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buttonGray.setEnabled(false);
+				currentBtn.setEnabled(true);
+				currentBtn = buttonGray;
+				newColor = Color.GRAY;
+				
+			}
+		});
 		
 		
 		//Mouse listener for table
@@ -61,9 +119,10 @@ public class MainFrame extends JFrame {
 		        int col = table.columnAtPoint(evt.getPoint());
 		        
 		        Color cellColor = cellRenderer.getCellColor(row, col);  
-		        Graph graph = new Graph();
+		       
+		        Graph graph = new Graph();		    
+		        graph.FloodFillBFS(row, col, cellColor, 40, 85, cellRenderer, table, newColor); 
 		        
-		        graph.FloodFillBFS(row, col, cellColor, 40, 85, cellRenderer, table);        
 		    }
 		});		
 
